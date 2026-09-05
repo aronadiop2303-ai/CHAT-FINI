@@ -2,7 +2,7 @@ import type { MessageKind } from "../../../packages/contracts/src/index.js";
 import type { MessageStore, PersistedMessage } from "./message-service.js";
 
 export interface TransactionClient {
-  query<T extends Record<string, unknown> = Record<string, unknown>>(text: string, values: readonly unknown[]): Promise<{ rows: T[] }>;
+  query<T = unknown>(text: string, values: readonly unknown[]): Promise<{ rows: T[] }>;
 }
 export interface TransactionRunner { transaction<T>(work: (client: TransactionClient) => Promise<T>): Promise<T>; }
 

@@ -1,0 +1,36 @@
+name: realtime
+
+on:
+  push:
+    paths:
+      - 'apps/realtime/**'
+      - 'core/**'
+      - 'packages/contracts/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - 'tsconfig.json'
+      - '.github/workflows/realtime.yml'
+  pull_request:
+    paths:
+      - 'apps/realtime/**'
+      - 'core/**'
+      - 'packages/contracts/**'
+      - 'package.json'
+      - 'pnpm-workspace.yaml'
+      - 'tsconfig.json'
+
+jobs:
+  realtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.15.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: pnpm install --no-frozen-lockfile
+      - run: pnpm --filter @chat-fini/realtime typecheck
+      - run: pnpm --filter @chat-fini/realtime build
+      - run: pnpm --filter @chat-fini/realtime test

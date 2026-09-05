@@ -4,13 +4,14 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx src/server.ts",
-    "start": "node dist/server.js",
+    "dev": "tsx src/runtime.ts",
+    "start": "node dist/apps/realtime/src/runtime.js",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test dist/**/*.test.js"
+    "test": "node --test dist/apps/realtime/src/**/*.test.js"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
     "ws": "^8.18.0"
   },
   "devDependencies": {

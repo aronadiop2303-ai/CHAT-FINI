@@ -19,6 +19,41 @@ export interface IdentityProvider {
   getIdentity(userId: ID): Promise<UserIdentity | null>;
 }
 
+/**
+ * Optional device-level biometric authentication boundary.
+ *
+ * Platform adapters (Face ID, Touch ID, Android BiometricPrompt, passkeys,
+ * secure hardware, etc.) belong outside the core and can be added later.
+ * The core must never receive or store raw biometric data.
+ */
+export type BiometricMethod =
+  | "face_id"
+  | "fingerprint"
+  | "touch_id"
+  | "android_biometric"
+  | "passkey"
+  | "hardware_security_key";
+
+export type BiometricAvailability =
+  | "available"
+  | "unavailable"
+  | "not_configured"
+  | "temporarily_locked";
+
+export interface BiometricCapability {
+  method: BiometricMethod;
+  availability: BiometricAvailability;
+}
+
+export interface BiometricAuthPort {
+  readonly id: string;
+  getCapabilities(): Promise<BiometricCapability[]>;
+  authenticate(reason: string): Promise<boolean>;
+  isEnabled(): Promise<boolean>;
+  enable(): Promise<void>;
+  disable(): Promise<void>;
+}
+
 /** Compatibility port for the initial in-memory implementation. */
 export interface IdentityPort {
   getCurrentSession(): Promise<IdentitySession | null>;

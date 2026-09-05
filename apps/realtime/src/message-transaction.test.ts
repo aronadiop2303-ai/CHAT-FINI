@@ -8,7 +8,7 @@ class FakeClient implements TransactionClient {
   messages = new Map<string, any>();
   events: any[] = [];
 
-  async query<T extends Record<string, unknown>>(text: string, values: readonly unknown[]): Promise<{ rows: T[] }> {
+  async query<T = unknown>(text: string, values: readonly unknown[]): Promise<{ rows: T[] }> {
     if (text.includes("SELECT m.id")) {
       const row = [...this.messages.values()].find((m) => m.senderId === values[0] && m.clientMessageId === values[1]);
       return { rows: row ? [{ ...row, event_id: this.events.find((e) => e.aggregateId === row.id)?.id } as T] : [] };
@@ -29,7 +29,7 @@ class FakeClient implements TransactionClient {
 }
 
 class FakeRunner implements TransactionRunner {
-  constructor(private readonly client: FakeClient, private readonly failAfterMessage = false) {}
+  constructor(private readonly client: FakeClient) {}
   async transaction<T>(work: (client: TransactionClient) => Promise<T>): Promise<T> {
     try {
       const result = await work(this.client);

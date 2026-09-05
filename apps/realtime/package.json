@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/runtime.ts",
-    "start": "node dist/runtime.js",
+    "start": "node dist/apps/realtime/src/runtime.js",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test dist/**/*.test.js"
+    "test": "node --test dist/apps/realtime/src/**/*.test.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",

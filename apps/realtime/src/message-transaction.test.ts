@@ -14,13 +14,15 @@ class FakeClient implements TransactionClient {
       return { rows: row ? [{ ...row, event_id: this.events.find((e) => e.aggregateId === row.id)?.id } as T] : [] };
     }
     if (text.includes("INSERT INTO chat_fini.messages")) {
-      if (values[0] !== "conversation-member") return { rows: [] };
-      const row = { id: "message-1", conversationId: values[0], senderId: values[1], kind: values[2], body: values[3], createdAt: "2026-09-05T00:00:00.000Z", clientMessageId: values[4] };
-      this.messages.set("message-1", row);
+      if (values[1] !== "user-1") return { rows: [] };
+      const existing = [...this.messages.values()].find((m) => m.senderId === values[1] && m.clientMessageId === values[4]);
+      if (existing) return { rows: [] };
+      const row = { id: `message-${this.messages.size + 1}`, conversationId: values[0], senderId: values[1], kind: values[2], body: values[3], createdAt: "2026-09-05T00:00:00.000Z", clientMessageId: values[4] };
+      this.messages.set(row.id, row);
       return { rows: [row as T] };
     }
     if (text.includes("INSERT INTO chat_fini.events")) {
-      const event = { id: "event-1", aggregateId: values[0] };
+      const event = { id: `event-${this.events.length + 1}`, aggregateId: values[0] };
       this.events.push(event);
       return { rows: [event as T] };
     }

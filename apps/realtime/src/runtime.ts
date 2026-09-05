@@ -10,12 +10,15 @@ export function createProductionRealtimeServer() {
   const sessions = new NeonSessionValidator(pool);
   const authorization = new ConversationTopicAuthorizer(pool);
   const store = new NeonMessageStore(new NeonTransactionRunner(pool));
+  let hub: ReturnType<typeof createRealtimeServer>["hub"];
   const messageService = new MessageService(store, {
-    publish: async () => {
-      // Event publication is connected by the transport adapter after commit.
+    publish: async (conversationId, event) => {
+      await hub.publish(`conversation:${conversationId}`, event);
     },
   });
-  return { ...createRealtimeServer({ sessions, authorization, messageService }), pool };
+  const runtime = createRealtimeServer({ sessions, authorization, messageService });
+  hub = runtime.hub;
+  return { ...runtime, pool };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

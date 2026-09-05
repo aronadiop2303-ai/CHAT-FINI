@@ -1,0 +1,13 @@
+{
+  "name": "chat-fini",
+  "private": true,
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "dev:web": "pnpm --filter @chat-fini/web dev",
+    "build:web": "pnpm --filter @chat-fini/web build",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

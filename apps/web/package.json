@@ -1,0 +1,9 @@
+{
+  "name": "@chat-fini/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "vite", "build": "tsc -b && vite build", "typecheck": "tsc -b --noEmit" },
+  "dependencies": { "@chat-fini/contracts": "workspace:*", "@vitejs/plugin-react": "latest", "vite": "latest", "typescript": "^5.8.3", "react": "latest", "react-dom": "latest", "lucide-react": "latest" },
+  "devDependencies": {}
+}

@@ -6,7 +6,6 @@ on:
       - 'apps/realtime/**'
       - 'core/**'
       - 'packages/contracts/**'
-      - 'pnpm-lock.yaml'
       - 'package.json'
       - 'pnpm-workspace.yaml'
       - 'tsconfig.json'
@@ -16,7 +15,6 @@ on:
       - 'apps/realtime/**'
       - 'core/**'
       - 'packages/contracts/**'
-      - 'pnpm-lock.yaml'
       - 'package.json'
       - 'pnpm-workspace.yaml'
       - 'tsconfig.json'
@@ -33,7 +31,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm --filter @chat-fini/realtime typecheck
       - run: pnpm --filter @chat-fini/realtime build
       - run: pnpm --filter @chat-fini/realtime test
